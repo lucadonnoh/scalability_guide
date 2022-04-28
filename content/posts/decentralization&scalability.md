@@ -1,14 +1,14 @@
 +++
 title = "Decentralization & scalability"
 date = "2022-04-28T15:18:10+02:00"
-author = ""
-authorTwitter = "" #do not include @
+author = "donnoh.eth"
+authorTwitter = "donnoh_eth" #do not include @
 cover = ""
 tags = ["decentralization", "scalability"]
 keywords = ["", ""]
 description = ""
 showFullContent = false
-readingTime = false
+readingTime = true
 hideComments = false
 draft = true
 +++

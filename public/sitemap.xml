@@ -2,6 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>/</loc>
+    <lastmod>2022-04-28T15:18:10+02:00</lastmod>
+  </url><url>
     <loc>/tags/decentralization/</loc>
     <lastmod>2022-04-28T15:18:10+02:00</lastmod>
   </url><url>
@@ -12,9 +15,6 @@
     <lastmod>2022-04-28T15:18:10+02:00</lastmod>
   </url><url>
     <loc>/tags/scalability/</loc>
-    <lastmod>2022-04-28T15:18:10+02:00</lastmod>
-  </url><url>
-    <loc>/</loc>
     <lastmod>2022-04-28T15:18:10+02:00</lastmod>
   </url><url>
     <loc>/tags/</loc>
