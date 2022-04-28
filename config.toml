@@ -51,7 +51,7 @@ paginate = 5
 
   # set title for the table of contents
   # can be overridden in a page's front-matter
-  # TocTitle = "Table of Contents" # default
+  TocTitle = "Table of Contents" # default
 
 
 [params.twitter]
@@ -83,6 +83,6 @@ paginate = 5
 
     [languages.en.menu]
       [[languages.en.menu.main]]
-        identifier = "about"
-        name = "gm"
-        url = "/posts/gm"
+        identifier = "decentralization"
+        name = "Decentralization & Scalability"
+        url = "/posts/decentralizationscalability"
