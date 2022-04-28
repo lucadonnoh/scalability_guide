@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Scalability Guide</title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on Scalability Guide</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 28 Apr 2022 15:18:10 +0200</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>introduction</title>
+      <link>/tags/introduction/</link>
+      <pubDate>Thu, 28 Apr 2022 15:18:10 +0200</pubDate>
+      
+      <guid>/tags/introduction/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>meta</title>
+      <link>/tags/meta/</link>
+      <pubDate>Thu, 28 Apr 2022 15:18:10 +0200</pubDate>
+      
+      <guid>/tags/meta/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+  </channel>
+</rss>
