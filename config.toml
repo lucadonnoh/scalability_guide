@@ -84,4 +84,4 @@ paginate = 5
       [[languages.en.menu.main]]
         identifier = "about"
         name = "gm"
-        url = "posts/gm"
+        url = "/posts/gm"
