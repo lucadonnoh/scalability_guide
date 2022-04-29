@@ -85,4 +85,4 @@ paginate = 5
       [[languages.en.menu.main]]
         identifier = "decentralization"
         name = "Decentralization & Scalability"
-        url = "/posts/decentralizationscalability"
+        url = "/posts/decentralization_and_scalability"
