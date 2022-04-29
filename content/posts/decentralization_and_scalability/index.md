@@ -11,6 +11,7 @@ showFullContent = false
 readingTime = true
 hideComments = false
 draft = false
+path = "https://scalability.guide/posts/decentralization_and_scalability/"
 +++
 
 ## What does it mean to be decentralized?
