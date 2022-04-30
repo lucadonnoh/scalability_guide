@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>bottlenecks on Scalability Guide</title>
+    <link>/tags/bottlenecks/</link>
+    <description>Recent content in bottlenecks on Scalability Guide</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 30 Apr 2022 13:06:37 +0200</lastBuildDate><atom:link href="/tags/bottlenecks/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bottlenecks</title>
+      <link>/posts/bottlenecks/</link>
+      <pubDate>Sat, 30 Apr 2022 13:06:37 +0200</pubDate>
+      
+      <guid>/posts/bottlenecks/</guid>
+      <description>## Pricing resources
+Gas refers to the unit that measures the amount of computational effort required to execute specific operations on the Ethereum network.</description>
+      <content>&lt;p&gt;## Pricing resources&lt;/p&gt;
+&lt;p&gt;Gas refers to the unit that measures the amount of computational effort required to execute specific operations on the Ethereum network.&lt;/p&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>

@@ -6,7 +6,20 @@
     <description>Recent content on Scalability Guide</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 28 Apr 2022 15:18:10 +0200</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 30 Apr 2022 13:06:37 +0200</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bottlenecks</title>
+      <link>/posts/bottlenecks/</link>
+      <pubDate>Sat, 30 Apr 2022 13:06:37 +0200</pubDate>
+      
+      <guid>/posts/bottlenecks/</guid>
+      <description>## Pricing resources
+Gas refers to the unit that measures the amount of computational effort required to execute specific operations on the Ethereum network.</description>
+      <content>&lt;p&gt;## Pricing resources&lt;/p&gt;
+&lt;p&gt;Gas refers to the unit that measures the amount of computational effort required to execute specific operations on the Ethereum network.&lt;/p&gt;
+</content>
+    </item>
+    
     <item>
       <title>Decentralization &amp; scalability</title>
       <link>/posts/decentralization_and_scalability/</link>
