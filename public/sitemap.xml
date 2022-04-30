@@ -3,15 +3,18 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>/</loc>
-    <lastmod>2022-04-28T15:18:10+02:00</lastmod>
+    <lastmod>2022-04-30T13:21:34+02:00</lastmod>
+  </url><url>
+    <loc>/posts/rollups_trilemma/</loc>
+    <lastmod>2022-04-30T13:21:34+02:00</lastmod>
+  </url><url>
+    <loc>/posts/</loc>
+    <lastmod>2022-04-30T13:21:34+02:00</lastmod>
   </url><url>
     <loc>/tags/decentralization/</loc>
     <lastmod>2022-04-28T15:18:10+02:00</lastmod>
   </url><url>
     <loc>/posts/decentralization_and_scalability/</loc>
-    <lastmod>2022-04-28T15:18:10+02:00</lastmod>
-  </url><url>
-    <loc>/posts/</loc>
     <lastmod>2022-04-28T15:18:10+02:00</lastmod>
   </url><url>
     <loc>/tags/scalability/</loc>

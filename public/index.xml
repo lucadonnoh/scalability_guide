@@ -6,7 +6,32 @@
     <description>Recent content on Scalability Guide</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 28 Apr 2022 15:18:10 +0200</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 30 Apr 2022 13:21:34 +0200</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How rollups solve the scalability trilemma</title>
+      <link>/posts/rollups_trilemma/</link>
+      <pubDate>Sat, 30 Apr 2022 13:21:34 +0200</pubDate>
+      
+      <guid>/posts/rollups_trilemma/</guid>
+      <description>The scalability trilemma The scalability trilemma says that there are three properties that a blockchain try to have, and that, if you stick to &amp;ldquo;simple&amp;rdquo; techniques, you can only get two of those three. The three properties are:
+ Scalability: the chain can process more transactions than a single regular node (think: a consumer laptop) can verify. Decentralization: the chain can run without any trust dependencies on a small group of large centralized actors.</description>
+      <content>&lt;h2 id=&#34;the-scalability-trilemma&#34;&gt;The scalability trilemma&lt;/h2&gt;
+
+  &lt;img src=&#34;trilemma.png&#34;  alt=&#34;Trilemma diagram&#34;  class=&#34;center&#34;  style=&#34;border-radius: 8px;width: 80%; max-width: 30em&#34;  /&gt;
+
+
+&lt;p&gt;The scalability trilemma says that there are three properties that a blockchain try to have, and that, &lt;strong&gt;if you stick to &amp;ldquo;simple&amp;rdquo; techniques, you can only get two of those three&lt;/strong&gt;. The three properties are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Scalability&lt;/strong&gt;: the chain can process more transactions than a single regular node (think: a consumer laptop) can verify.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Decentralization&lt;/strong&gt;: the chain can run without any trust dependencies on a small group of large centralized actors. This is typically interpreted to mean that there should not be any trust (or even honest-majority assumption) of a set of nodes that you cannot join with just a consumer laptop.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Security&lt;/strong&gt;: the chain can resist a large percentage of participating nodes trying to attack it (ideally 50%; anything above 25% is fine, 5% is definitely not fine).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To solve the trilemma we need the not-so-simple technique of separating the execution layer from the consensus layer.
+Using fraud proofs and validity proofs in combination with a scalable data availability layer we can relieve full nodes from executing all transactions.&lt;/p&gt;
+&lt;p&gt;By using rollups as execution layers, the base layer focus is now narrowed to provide massive data availability, security and decentralization&lt;/p&gt;
+</content>
+    </item>
+    
     <item>
       <title>Decentralization &amp; scalability</title>
       <link>/posts/decentralization_and_scalability/</link>
