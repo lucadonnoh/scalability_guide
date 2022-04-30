@@ -67,3 +67,8 @@ An example of a scalability solution are **validity proofs**:
 a **validity rollup** (or **ZK rollup**) moves computation and state storage off-chain but keeps a small amount of data on-chain. Rollups transactions are computed by a **Prover**, which computes the new state root and a validity proof which mathematically proves the correctness of the execution, and sends them to an on-chain smart contract called **Verifier**, which verifies the validity proof and updates the state of the rollup to the new one. The key aspect is that the computational cost of verifying the proof is much smaller than executing the underlying transactions. This compression trick proves that the throughput can be increased without increasing the hardware requirements.
 
 In traditional blockchains, the more transactions happen, the more expensive it gets to get a transaction included. With rollups the dynamic is reversed, where the more transaction it gets the less each costs. But this is a story for another article about rollups.
+
+## Resources
+- [The meaning of decentralization](https://medium.com/@VitalikButerin/the-meaning-of-decentralization-a0c92b76a274)
+- [Redefining scalability](https://medium.com/starkware/redefining-scalability-5aa11ffc5880)
+- [Blockchain full nodes, decentralization and scalability: an impossible challenge?](https://polynya.medium.com/blockchain-full-nodes-decentralization-and-scalability-an-impossible-challenge-d77df0944bbf)

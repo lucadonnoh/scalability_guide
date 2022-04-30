@@ -49,7 +49,7 @@
 <meta property="og:url" content="/posts/decentralization_and_scalability/" />
 <meta property="og:site_name" content="Scalability Guide" />
 
-  <meta property="og:image" content="/cover.png">
+  <meta property="og:image" content="https://scalability.guide/posts/decentralization_and_scalability/cover.png">
 
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -135,7 +135,7 @@
       <span class="post-author">:: donnoh.eth</span>
     
     
-      <span class="post-reading-time">:: 5 min read (990 words)</span>
+      <span class="post-reading-time">:: 5 min read (1006 words)</span>
     
   </div>
 
@@ -169,6 +169,7 @@
     </li>
     <li><a href="#blockchain-decentralization-what-is-a-node">Blockchain decentralization: what is a node?</a></li>
     <li><a href="#what-does-it-mean-to-scale-a-blockchain">What does it mean to scale a blockchain?</a></li>
+    <li><a href="#resources">Resources</a></li>
   </ul>
 </nav>
     </div>
@@ -216,6 +217,12 @@
 <p>An example of a scalability solution are <strong>validity proofs</strong>:
 a <strong>validity rollup</strong> (or <strong>ZK rollup</strong>) moves computation and state storage off-chain but keeps a small amount of data on-chain. Rollups transactions are computed by a <strong>Prover</strong>, which computes the new state root and a validity proof which mathematically proves the correctness of the execution, and sends them to an on-chain smart contract called <strong>Verifier</strong>, which verifies the validity proof and updates the state of the rollup to the new one. The key aspect is that the computational cost of verifying the proof is much smaller than executing the underlying transactions. This compression trick proves that the throughput can be increased without increasing the hardware requirements.</p>
 <p>In traditional blockchains, the more transactions happen, the more expensive it gets to get a transaction included. With rollups the dynamic is reversed, where the more transaction it gets the less each costs. But this is a story for another article about rollups.</p>
+<h2 id="resources">Resources<a href="#resources" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ul>
+<li><a href="https://medium.com/@VitalikButerin/the-meaning-of-decentralization-a0c92b76a274">The meaning of decentralization</a></li>
+<li><a href="https://medium.com/starkware/redefining-scalability-5aa11ffc5880">Redefining scalability</a></li>
+<li><a href="https://polynya.medium.com/blockchain-full-nodes-decentralization-and-scalability-an-impossible-challenge-d77df0944bbf">Blockchain full nodes, decentralization and scalability: an impossible challenge?</a></li>
+</ul>
 
       </div></div>
 
