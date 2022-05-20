@@ -39,7 +39,10 @@ We define a new kind of transition function as `rootTransition(stateRoot,t,w)` w
 
 Note that these Merkle proofs are a subtree of the same state tree with a common root, so we can update the state root without having the whole state tree!
 
-Given a list of transactions from a block, we can compute the intermediate state roots where the last one is the state root of the new block.
+{{< image src="diagram.png" alt="How to recompute the root using a witness" position="center" style="border-radius: 8px;" >}}
+
+
+Given a list of transactions from a block, we can compute the intermediate state roots, where the last one is the state root of the new block.
 
 We also add a new field inside the block header, the `dataRoot`, which represents transactions arranged into fixed-size chunks of data called "shares", needed for data availability proofs. These shares contains intermediate state roots called "traces" as well as transactions.
 
