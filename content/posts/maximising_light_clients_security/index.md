@@ -16,7 +16,7 @@ path = "https://scalability.guide/posts/maximising_light_clients_security/"
 
 This post is a summary of the [Fraud and Data Availability Proofs: Maximising Light Client Security and Scaling Blockchains with Dishonest Majorities](https://arxiv.org/abs/1809.09044) paper, which is a good introduction to fraud proofs and data availability sampling.
 
-I already discussed what's a node and the difference between light and full nodes in [Decentralization & scalability](https://scalability.guide/posts/decentralization_and_scalability/#blockchain-decentralization-what-is-a-node), so check it out!
+I already discussed what a node is and the difference between light and full nodes in [Decentralization & scalability](https://scalability.guide/posts/decentralization_and_scalability/#blockchain-decentralization-what-is-a-node), so check it out!
 
 ---
 

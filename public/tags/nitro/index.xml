@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nitro on Scalability Guide</title>
+    <link>/tags/nitro/</link>
+    <description>Recent content in nitro on Scalability Guide</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 29 Aug 2022 17:45:41 +0200</lastBuildDate><atom:link href="/tags/nitro/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Differences and similarities of Optimism Bedrock and Arbitrum Nitro</title>
+      <link>/posts/bedrock_vs_nitro/</link>
+      <pubDate>Mon, 29 Aug 2022 17:45:41 +0200</pubDate>
+      
+      <guid>/posts/bedrock_vs_nitro/</guid>
+      <description>Deposits Deposited transactions are L2 transactions that are being submitted using a smart contract on L1. This mechanism prevents censorship and defends from sequencer failure.
+The main difference between the two rollups is the delay between the submission and the inclusion of the transaction on L2: Nitro uses a queue of timestamped transactions where the sequencer is allowed to wait some time (10 mins = ~50 ETH blocks) before including them to prevent dealing with reorgs.</description>
+      <content>&lt;h2 id=&#34;deposits&#34;&gt;Deposits&lt;/h2&gt;
+&lt;p&gt;Deposited transactions are L2 transactions that are being submitted using a smart contract on L1. This mechanism prevents censorship and defends from sequencer failure.&lt;/p&gt;
+&lt;p&gt;The main difference between the two rollups is the delay between the submission and the inclusion of the transaction on L2: Nitro uses a queue of timestamped transactions where the sequencer is allowed to wait some time (10 mins = ~50 ETH blocks) before including them to prevent dealing with reorgs. Only after 24 hours the tx can be force included: this means a whole day with no transactions if the sequencer is offline or censoring. The reason behind this high delay is to disincentivize forced transaction under normal conditions because they &amp;ldquo;directly affect the state for any unconfirmed L2 transaction&amp;rdquo; (isn&amp;rsquo;t it the same for transactions sent directly to the sequencer?).&lt;/p&gt;
+&lt;p&gt;Deposited transactions on Bedrock are immediately included in an L2 block: by specification, the first block in a rollup epoch must include all the deposited transactions in the corresponding L1 block (one epoch per L1 block and possibly many L2 blocks per epoch). This means that in the case of a sequencer failure, the L2 chain can continue to operate without any additional delay. Dealing with reorgs is not avoided.&lt;/p&gt;
+&lt;h3 id=&#34;address-aliasing&#34;&gt;Address aliasing&lt;/h3&gt;
+&lt;p&gt;Both rollups solves the problem using an offset of the sender.&lt;/p&gt;
+&lt;h2 id=&#34;batch-submission&#34;&gt;Batch submission&lt;/h2&gt;
+&lt;p&gt;In Nitro, the Sequencer posts a batch of consecutive transactions which determines the final transaction ordering.&lt;/p&gt;
+&lt;p&gt;In Bedrock, the Sequencer posts batcher transactions to Ethereum. A batcher transaction contains one or multiple chunks belonging to a channel. A channel is a sequence of sequencer batches compressed together uniquely identified by its timestamp and a random value. Multiple batches are compressed together to obtain a better compression rate. A Sequencer batch contains the transactions of an L2 block. This design allows Bedrock to maximize data utilization in a batcher transaction.&lt;/p&gt;
+&lt;p&gt;// describe the formats&lt;/p&gt;
+&lt;h2 id=&#34;l2-to-l1-messaging&#34;&gt;L2 to L1 messaging&lt;/h2&gt;
+&lt;p&gt;Nitro state is encoded into the storage slots of an Ethereum account whose private key is not known, in a hierarchy of nested space where each one is a mapping from a 256-bit index to a 256-bit value. This structure is then compressed into a single 256-bit to 256-bit map using a locality preserving hash function.&lt;/p&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>

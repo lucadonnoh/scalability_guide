@@ -1,35 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Scalability Guide</title>
-    <link>/</link>
-    <description>Recent content on Scalability Guide</description>
+    <title>erasure-codes on Scalability Guide</title>
+    <link>/tags/erasure-codes/</link>
+    <description>Recent content in erasure-codes on Scalability Guide</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 29 Aug 2022 17:45:41 +0200</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Differences and similarities of Optimism Bedrock and Arbitrum Nitro</title>
-      <link>/posts/bedrock_vs_nitro/</link>
-      <pubDate>Mon, 29 Aug 2022 17:45:41 +0200</pubDate>
-      
-      <guid>/posts/bedrock_vs_nitro/</guid>
-      <description>Deposits Deposited transactions are L2 transactions that are being submitted using a smart contract on L1. This mechanism prevents censorship and defends from sequencer failure.
-The main difference between the two rollups is the delay between the submission and the inclusion of the transaction on L2: Nitro uses a queue of timestamped transactions where the sequencer is allowed to wait some time (10 mins = ~50 ETH blocks) before including them to prevent dealing with reorgs.</description>
-      <content>&lt;h2 id=&#34;deposits&#34;&gt;Deposits&lt;/h2&gt;
-&lt;p&gt;Deposited transactions are L2 transactions that are being submitted using a smart contract on L1. This mechanism prevents censorship and defends from sequencer failure.&lt;/p&gt;
-&lt;p&gt;The main difference between the two rollups is the delay between the submission and the inclusion of the transaction on L2: Nitro uses a queue of timestamped transactions where the sequencer is allowed to wait some time (10 mins = ~50 ETH blocks) before including them to prevent dealing with reorgs. Only after 24 hours the tx can be force included: this means a whole day with no transactions if the sequencer is offline or censoring. The reason behind this high delay is to disincentivize forced transaction under normal conditions because they &amp;ldquo;directly affect the state for any unconfirmed L2 transaction&amp;rdquo; (isn&amp;rsquo;t it the same for transactions sent directly to the sequencer?).&lt;/p&gt;
-&lt;p&gt;Deposited transactions on Bedrock are immediately included in an L2 block: by specification, the first block in a rollup epoch must include all the deposited transactions in the corresponding L1 block (one epoch per L1 block and possibly many L2 blocks per epoch). This means that in the case of a sequencer failure, the L2 chain can continue to operate without any additional delay. Dealing with reorgs is not avoided.&lt;/p&gt;
-&lt;h3 id=&#34;address-aliasing&#34;&gt;Address aliasing&lt;/h3&gt;
-&lt;p&gt;Both rollups solves the problem using an offset of the sender.&lt;/p&gt;
-&lt;h2 id=&#34;batch-submission&#34;&gt;Batch submission&lt;/h2&gt;
-&lt;p&gt;In Nitro, the Sequencer posts a batch of consecutive transactions which determines the final transaction ordering.&lt;/p&gt;
-&lt;p&gt;In Bedrock, the Sequencer posts batcher transactions to Ethereum. A batcher transaction contains one or multiple chunks belonging to a channel. A channel is a sequence of sequencer batches compressed together uniquely identified by its timestamp and a random value. Multiple batches are compressed together to obtain a better compression rate. A Sequencer batch contains the transactions of an L2 block. This design allows Bedrock to maximize data utilization in a batcher transaction.&lt;/p&gt;
-&lt;p&gt;// describe the formats&lt;/p&gt;
-&lt;h2 id=&#34;l2-to-l1-messaging&#34;&gt;L2 to L1 messaging&lt;/h2&gt;
-&lt;p&gt;Nitro state is encoded into the storage slots of an Ethereum account whose private key is not known, in a hierarchy of nested space where each one is a mapping from a 256-bit index to a 256-bit value. This structure is then compressed into a single 256-bit to 256-bit map using a locality preserving hash function.&lt;/p&gt;
-</content>
-    </item>
-    
+    <lastBuildDate>Thu, 19 May 2022 17:45:41 +0200</lastBuildDate><atom:link href="/tags/erasure-codes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Maximising light clients security</title>
       <link>/posts/maximising_light_clients_security/</link>
@@ -150,64 +127,6 @@ Additionally light clients gossip shares that they have received to the network,
 &lt;li&gt;&lt;a href=&#34;https://dankradfeist.de/ethereum/2021/05/20/what-everyone-gets-wrong-about-51percent-attacks.html&#34;&gt;What everyone gets wrong about 51% attacks&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://medium.com/@kelvinfichter/whats-a-sparse-merkle-tree-acda70aeb837&#34;&gt;What’s a Sparse Merkle Tree?&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://dankradfeist.de/ethereum/2020/06/16/kate-polynomial-commitments.html&#34;&gt;KZG polynomial commitments&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Decentralization &amp; scalability</title>
-      <link>/posts/decentralization_and_scalability/</link>
-      <pubDate>Thu, 28 Apr 2022 15:18:10 +0200</pubDate>
-      
-      <guid>/posts/decentralization_and_scalability/</guid>
-      <description>What does it mean to be decentralized? There are three separate axes of decentralization:
- Architectural decentralization &amp;ndash; how many physical computers is a system made up of? How many of those computers can it tolerate breaking down at any single time? Political decentralization &amp;ndash; how many individuals or organizations ultimately control the computers that the system is made up of? Logical decentralization &amp;ndash; does the interface and data structures that the system presents and maintains look more like a single monolithic object, or an amorphous swarm?</description>
-      <content>&lt;h2 id=&#34;what-does-it-mean-to-be-decentralized&#34;&gt;What does it mean to be decentralized?&lt;/h2&gt;
-&lt;p&gt;There are three separate axes of decentralization:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Architectural decentralization&lt;/strong&gt; &amp;ndash; how many &lt;strong&gt;physical computers&lt;/strong&gt; is a system made up of? How many of those computers can it tolerate breaking down at any single time?&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Political decentralization&lt;/strong&gt; &amp;ndash; how many &lt;strong&gt;individuals or organizations&lt;/strong&gt; ultimately control the computers that the system is made up of?&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Logical decentralization&lt;/strong&gt; &amp;ndash; does the &lt;strong&gt;interface and data structures&lt;/strong&gt; that the system presents and maintains look more like a single monolithic object, or an amorphous swarm? One simplw heuristic: if you cut the system in half, including both providers and users, will both halves continue to fully operate as independent units?&lt;/li&gt;
-&lt;/ul&gt;
-
-  &lt;img src=&#34;decentralization_diagram.png&#34;  alt=&#34;Decentralization diagram&#34;  class=&#34;center&#34;  style=&#34;border-radius: 8px;&#34;  /&gt;
-
-
-&lt;p&gt;&lt;strong&gt;Blockchains&lt;/strong&gt; are &lt;strong&gt;politically decentralized&lt;/strong&gt; (no one controls them) and &lt;strong&gt;architecturally decentralized&lt;/strong&gt; (no infrastructural central point of failure) but &lt;strong&gt;logically centralized&lt;/strong&gt; (common agreed state that behaves like a single computer).&lt;/p&gt;
-&lt;p&gt;Logical centralization is in many cases good, but &lt;strong&gt;logical decentralization is good at surviving network partitions&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Architectural centralization&lt;/strong&gt; can lead to &lt;strong&gt;political centralization&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Architectural but non political decentralization&lt;/strong&gt; could happen when a community uses a centralized forum for convenience but if the owners of the forum act maliciously then everyone will move to a different forum (e.g. &lt;strong&gt;cryptotwitter&lt;/strong&gt;).&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Logical centralization makes architectural decentralization harder&lt;/strong&gt;, but not impossible — see &lt;strong&gt;decentralized consensus networks&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Logical centralization makes political decentralization harder&lt;/strong&gt;, where you can’t simply “live and let live” — see the Block size limit controversy and the DAO fork.&lt;/p&gt;
-&lt;h3 id=&#34;reasons-for-decentralization&#34;&gt;Reasons for decentralization&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Fault tolerance&lt;/strong&gt; — decentralized systems are less likely to fail accidentally because they rely on many separate components that are not likely. It’s important to avoid &lt;a href=&#34;https://en.wikipedia.org/wiki/Common_cause_and_special_cause_(statistics)#Common_mode_failure_in_engineering&#34;&gt;common mode failures&lt;/a&gt;, by having different client softwares by different teams, democratized protocol upgrades, geographically sparse nodes and a sparse distribution of coins in a proof of stake blockchain.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Attack resistance&lt;/strong&gt; — decentralized systems are more expensive to attack because they lack sensitive central points. Proof of stake is harder to attack than proof of work because hardware is easy to detect, regulate or attack whereas coins can be much more easily hidden.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Collusion resistance&lt;/strong&gt; — it is much harder for participants in decentralized systems to collude to act in ways that benefit them at the expense of others. It is important to note that “collusion” simply means “coordination that we don’t like”. It is difficult to have “good coordination” while preventing “bad coordination”.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;blockchain-decentralization-what-is-a-node&#34;&gt;Blockchain decentralization: what is a node?&lt;/h2&gt;
-&lt;p&gt;A node is a software that participate in the distributed network that makes up a blockchain.&lt;/p&gt;
-&lt;p&gt;What makes a blockchain trustless is that everyone who runs a node can independently verify the validity of the transactions and verify blocks against consensus rules. If you’re not running a node yourself, you’re trusting someone else to provide you with the correct data (e.g. your MetaMask default provider, &lt;a href=&#34;https://infura.io/&#34;&gt;Infura&lt;/a&gt;).&lt;/p&gt;
-&lt;p&gt;There are three types of nodes:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Full nodes&lt;/strong&gt; — nodes that download and verify block headers (containing the hash of the previous block, the state root, the transactions root, the block number, the timestamp and other info) as well as the list of transactions, verifying that each transaction is valid according to some transaction validity rules. This usually implies having to execute every transaction one by one. A full node stores full blockchain data.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Light nodes&lt;/strong&gt; — nodes that only download block headers and assume that the list of transactions are valid according to the transaction validity rules. Light clients only verify blocks against the consensus rules. They store only the header chain.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Archive nodes&lt;/strong&gt; — nodes that store everything kept in a full node and build an archive of historical states. Needed if you want to query something like an account balance at block #4,000,000. They’re usually useful for services like block explorers, wallet vendors and chain analytics.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;what-does-it-mean-to-scale-a-blockchain&#34;&gt;What does it mean to scale a blockchain?&lt;/h2&gt;
-&lt;p&gt;How many units of computation can be processed per block (block size) and how fast a new block may be added (block time) determine the &lt;strong&gt;throughput of a blockchai&lt;/strong&gt;n.&lt;/p&gt;
-&lt;p&gt;To have a high &lt;strong&gt;architectural decentralization&lt;/strong&gt;, it is important to keep the cost to run a node as low as possible to enable as many individuals as possible to participate in the system. The cost is determined by the hardware, bandwith and storage. Note that if the state grows in time, the storage cost grows too, as well as the time of the worst-case execution.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;It is also important to keep the time to sync a full node low&lt;/strong&gt;, because it can prevent certain users to participate in the network. Bitcoin takes 3 hours to sync 12+ years of data, Ethereum about a week for 6 years of data, BSC takes 13 days for 6 months of data, EOS weeks/months, for Solana is impossible, you need to get a snapshot from Solana Labs.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Scalability in the context of blockchains only makes sense when it means more transactions for the same hardware.&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Simply increasing the block size or shortening the block time is not a scalability solution since it requires higher hardware requirements, decreasing decentralization.&lt;/p&gt;
-&lt;p&gt;An example of a scalability solution are &lt;strong&gt;validity proofs&lt;/strong&gt;:
-a &lt;strong&gt;validity rollup&lt;/strong&gt; (or &lt;strong&gt;ZK rollup&lt;/strong&gt;) moves computation and state storage off-chain but keeps a small amount of data on-chain. Rollups transactions are computed by a &lt;strong&gt;Prover&lt;/strong&gt;, which computes the new state root and a validity proof which mathematically proves the correctness of the execution, and sends them to an on-chain smart contract called &lt;strong&gt;Verifier&lt;/strong&gt;, which verifies the validity proof and updates the state of the rollup to the new one. The key aspect is that the computational cost of verifying the proof is much smaller than executing the underlying transactions. This compression trick proves that the throughput can be increased without increasing the hardware requirements.&lt;/p&gt;
-&lt;p&gt;In traditional blockchains, the more transactions happen, the more expensive it gets to get a transaction included. With rollups the dynamic is reversed, where the more transaction it gets the less each costs. But this is a story for another article about rollups.&lt;/p&gt;
-&lt;h2 id=&#34;resources&#34;&gt;Resources&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://medium.com/@VitalikButerin/the-meaning-of-decentralization-a0c92b76a274&#34;&gt;The meaning of decentralization&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://medium.com/starkware/redefining-scalability-5aa11ffc5880&#34;&gt;Redefining scalability&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://polynya.medium.com/blockchain-full-nodes-decentralization-and-scalability-an-impossible-challenge-d77df0944bbf&#34;&gt;Blockchain full nodes, decentralization and scalability: an impossible challenge?&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>

@@ -6,7 +6,154 @@
     <description>Recent content in Posts on Scalability Guide</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 28 Apr 2022 15:18:10 +0200</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 29 Aug 2022 17:45:41 +0200</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Differences and similarities of Optimism Bedrock and Arbitrum Nitro</title>
+      <link>/posts/bedrock_vs_nitro/</link>
+      <pubDate>Mon, 29 Aug 2022 17:45:41 +0200</pubDate>
+      
+      <guid>/posts/bedrock_vs_nitro/</guid>
+      <description>Deposits Deposited transactions are L2 transactions that are being submitted using a smart contract on L1. This mechanism prevents censorship and defends from sequencer failure.
+The main difference between the two rollups is the delay between the submission and the inclusion of the transaction on L2: Nitro uses a queue of timestamped transactions where the sequencer is allowed to wait some time (10 mins = ~50 ETH blocks) before including them to prevent dealing with reorgs.</description>
+      <content>&lt;h2 id=&#34;deposits&#34;&gt;Deposits&lt;/h2&gt;
+&lt;p&gt;Deposited transactions are L2 transactions that are being submitted using a smart contract on L1. This mechanism prevents censorship and defends from sequencer failure.&lt;/p&gt;
+&lt;p&gt;The main difference between the two rollups is the delay between the submission and the inclusion of the transaction on L2: Nitro uses a queue of timestamped transactions where the sequencer is allowed to wait some time (10 mins = ~50 ETH blocks) before including them to prevent dealing with reorgs. Only after 24 hours the tx can be force included: this means a whole day with no transactions if the sequencer is offline or censoring. The reason behind this high delay is to disincentivize forced transaction under normal conditions because they &amp;ldquo;directly affect the state for any unconfirmed L2 transaction&amp;rdquo; (isn&amp;rsquo;t it the same for transactions sent directly to the sequencer?).&lt;/p&gt;
+&lt;p&gt;Deposited transactions on Bedrock are immediately included in an L2 block: by specification, the first block in a rollup epoch must include all the deposited transactions in the corresponding L1 block (one epoch per L1 block and possibly many L2 blocks per epoch). This means that in the case of a sequencer failure, the L2 chain can continue to operate without any additional delay. Dealing with reorgs is not avoided.&lt;/p&gt;
+&lt;h3 id=&#34;address-aliasing&#34;&gt;Address aliasing&lt;/h3&gt;
+&lt;p&gt;Both rollups solves the problem using an offset of the sender.&lt;/p&gt;
+&lt;h2 id=&#34;batch-submission&#34;&gt;Batch submission&lt;/h2&gt;
+&lt;p&gt;In Nitro, the Sequencer posts a batch of consecutive transactions which determines the final transaction ordering.&lt;/p&gt;
+&lt;p&gt;In Bedrock, the Sequencer posts batcher transactions to Ethereum. A batcher transaction contains one or multiple chunks belonging to a channel. A channel is a sequence of sequencer batches compressed together uniquely identified by its timestamp and a random value. Multiple batches are compressed together to obtain a better compression rate. A Sequencer batch contains the transactions of an L2 block. This design allows Bedrock to maximize data utilization in a batcher transaction.&lt;/p&gt;
+&lt;p&gt;// describe the formats&lt;/p&gt;
+&lt;h2 id=&#34;l2-to-l1-messaging&#34;&gt;L2 to L1 messaging&lt;/h2&gt;
+&lt;p&gt;Nitro state is encoded into the storage slots of an Ethereum account whose private key is not known, in a hierarchy of nested space where each one is a mapping from a 256-bit index to a 256-bit value. This structure is then compressed into a single 256-bit to 256-bit map using a locality preserving hash function.&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Maximising light clients security</title>
+      <link>/posts/maximising_light_clients_security/</link>
+      <pubDate>Thu, 19 May 2022 17:45:41 +0200</pubDate>
+      
+      <guid>/posts/maximising_light_clients_security/</guid>
+      <description>This post is a summary of the Fraud and Data Availability Proofs: Maximising Light Client Security and Scaling Blockchains with Dishonest Majorities paper, which is a good introduction to fraud proofs and data availability sampling.
+I already discussed what a node is and the difference between light and full nodes in Decentralization &amp;amp; scalability, so check it out!
+ Since light clients only check block headers, they assume that the longest chain contains only valid transactions.</description>
+      <content>&lt;p&gt;This post is a summary of the &lt;a href=&#34;https://arxiv.org/abs/1809.09044&#34;&gt;Fraud and Data Availability Proofs: Maximising Light Client Security and Scaling Blockchains with Dishonest Majorities&lt;/a&gt; paper, which is a good introduction to fraud proofs and data availability sampling.&lt;/p&gt;
+&lt;p&gt;I already discussed what a node is and the difference between light and full nodes in &lt;a href=&#34;https://scalability.guide/posts/decentralization_and_scalability/#blockchain-decentralization-what-is-a-node&#34;&gt;Decentralization &amp;amp; scalability&lt;/a&gt;, so check it out!&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Since light clients only check &lt;a href=&#34;https://medium.com/coinmonks/ethereum-under-the-hood-part-7-blocks-c8a5f57cc356https://ethereum.github.io/yellowpaper/paper.pdf&#34;&gt;block headers&lt;/a&gt;, they assume that the longest chain contains only valid transactions. In the case of a 51% attack, &lt;a href=&#34;https://dankradfeist.de/ethereum/2021/05/20/what-everyone-gets-wrong-about-51percent-attacks.html&#34;&gt;where full clients would still reject invalid transactions&lt;/a&gt; a light client would not.&lt;/p&gt;
+&lt;p&gt;We can eliminate the honest majority assumption for light clients using fraud proofs generated by full clients. In this way we bring the assumption down to just one honest full client.
+We also suppose in our network model that the victim light client is connected to at least one honest full client.&lt;/p&gt;
+&lt;p&gt;There are two important components that needs to be discussed:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;fraud proofs&lt;/strong&gt;: to prove that a block contains invalid transactions.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;data availability sampling&lt;/strong&gt;: for data availability assurance, needed to generate fraud proofs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Goal&lt;/strong&gt;: Assuming that it takes &lt;code&gt;O(N)&lt;/code&gt; time for a full node to validate a block, light clients should discard an invalid block in less than &lt;code&gt;O(N)&lt;/code&gt; time and space, where &lt;code&gt;N&lt;/code&gt; is the number of transactions in a block. Note that this is necessary because light clients aren’t fast enough to keep up with the blockchain (otherwise they’d be full nodes). This requires updating the network at the protocol level.&lt;/p&gt;
+&lt;h2 id=&#34;fraud-proofs&#34;&gt;Fraud proofs&lt;/h2&gt;
+&lt;p&gt;We define a transition as a function &lt;code&gt;transition(S,t)&lt;/code&gt;, where &lt;code&gt;S&lt;/code&gt; is the state and &lt;code&gt;t&lt;/code&gt; a transaction, which outputs the new state &lt;code&gt;S&#39;&lt;/code&gt; after executing &lt;code&gt;t&lt;/code&gt; or gives an error.
+The state tree is represented as a Patricia tree, but for simplicity assume it&amp;rsquo;s a &lt;a href=&#34;https://medium.com/@kelvinfichter/whats-a-sparse-merkle-tree-acda70aeb837&#34;&gt;sparse Merkle tree&lt;/a&gt;.
+Since this transition needs the whole state tree, it can&amp;rsquo;t be used by light clients.&lt;/p&gt;
+&lt;p&gt;We define a new kind of transition function as &lt;code&gt;rootTransition(stateRoot,t,w)&lt;/code&gt; which outputs a new state root &lt;code&gt;stateRoot&#39;&lt;/code&gt; or gives an error, where &lt;code&gt;w&lt;/code&gt; is a sparse Merkle tree proof (a witness) of the parts of the state that the transaction &lt;code&gt;t&lt;/code&gt; touches.&lt;/p&gt;
+&lt;p&gt;Note that these Merkle proofs are a subtree of the same state tree with a common root, so we can update the state root without having the whole state tree!&lt;/p&gt;
+
+  &lt;img src=&#34;diagram.png&#34;  alt=&#34;How to recompute the root using a witness&#34;  class=&#34;center&#34;  style=&#34;border-radius: 8px;&#34;  /&gt;
+
+
+&lt;p&gt;Given a list of transactions from a block, we can compute the intermediate state roots, where the last one is the state root of the new block.&lt;/p&gt;
+&lt;p&gt;We also add a new field inside the block header, the &lt;code&gt;dataRoot&lt;/code&gt;, which represents transactions arranged into fixed-size chunks of data called &amp;ldquo;shares&amp;rdquo;, needed for data availability proofs. These shares contains intermediate state roots called &amp;ldquo;traces&amp;rdquo; as well as transactions.&lt;/p&gt;
+
+  &lt;figure class=&#34;center&#34; &gt;
+    &lt;img src=&#34;share.png&#34;  alt=&#34;Example of a data share&#34;   style=&#34;border-radius: 8px;&#34;  /&gt;
+    
+      &lt;figcaption class=&#34;center&#34; &gt;Example of a 256 bit share&lt;/figcaption&gt;
+    
+  &lt;/figure&gt;
+
+
+&lt;p&gt;A &lt;strong&gt;fraud proof&lt;/strong&gt; consists of the relevant shares in the block that contain a bad state transition, Merkle proofs for those shares and the state witness for the transactions contained in those shares.&lt;/p&gt;
+&lt;p&gt;We assume a &amp;ldquo;period criterion&amp;rdquo;, a protocol rule that defines how often an intermediate state root should be included in the block’s data. For example, the rule could be at least once every &lt;em&gt;p&lt;/em&gt; transactions, or &lt;em&gt;b&lt;/em&gt; bytes or &lt;em&gt;g&lt;/em&gt; gas.&lt;/p&gt;
+&lt;p&gt;The function to verify a fraud proof takes as input the fraud proofs and checks if applying the transactions in a period of the block’s data on the intermediate pre-state root results in the intermediate post-state root specified in the block of data. If it does not, then the fraud proof is valid and the block that the fraud proof is for should be permanently rejected by the client.&lt;/p&gt;
+&lt;h2 id=&#34;data-availability-sampling&#34;&gt;Data availability sampling&lt;/h2&gt;
+&lt;p&gt;Using fraud proofs alone, a malicious block producer could prevent full nodes from generating fraud proofs by withholding the data needed to recompute &lt;code&gt;dataRoot&lt;/code&gt;, and only releasing the block header to the network.&lt;/p&gt;
+&lt;p&gt;The block producer could then only release the data which contains invalid transactions or state transitions long after the block as been published, causing the rollback of many transactions.&lt;/p&gt;
+&lt;p&gt;It is therefore necessary for light clients to have a level of assurance that the data matching &lt;code&gt;dataRoot&lt;/code&gt; is indeed available in the network. It is important that all the data is available since it’s sufficient to just withhold a few bytes to hide an invalid transaction in a block.&lt;/p&gt;
+&lt;p&gt;Light clients could ask for all the data represented by &lt;code&gt;dataRoot&lt;/code&gt;, but our goal is to get this assurance in less than &lt;code&gt;O(N)&lt;/code&gt; time and space. This is where Reed-Solomon codes come into play.&lt;/p&gt;
+&lt;h3 id=&#34;reed-solomon-encoding&#34;&gt;Reed-Solomon encoding&lt;/h3&gt;
+&lt;p&gt;Reed-Solomon codes work under the assumption of bit erasures rather than bit errors.&lt;/p&gt;
+&lt;p&gt;A Reed-Solomon code encodes data by treating a length-$k$ message as a list of elements $y_0$, $y_1$, &amp;hellip;, $y_{k-1}$, interpolating the polynomial $P(x)$ where $P(i) = y_i$ for all $0 ≤ i &amp;lt; k$, and then extending the list with $y_k$, $y_{k+1}$, &amp;hellip;, $y_{n−1}$ where $y_i = P(i)$.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s give an example.&lt;/p&gt;
+&lt;p&gt;Imagine we want to encode the message &lt;code&gt;gm&lt;/code&gt; using a Reed-Solomon code with $k=2$. &lt;br&gt;
+We can encode the characters of the message using the &lt;a href=&#34;https://www.cs.cmu.edu/~pattis/15-1XX/common/handouts/ascii.html&#34;&gt;ASCII table&lt;/a&gt;, so we get $y_0=103$ and $y_1=109$.&lt;br&gt;
+For simplicity let&amp;rsquo;s use the equation to interpolate a line from two points: $$\frac{y-y_0}{y_1-y_0}=\frac{x-x_0}{x_1-x_0}$$
+The interpolation can be generalized for any polynomial using Lagrange interpolation or with more advanced techniques like Fast Fourier transforms.
+Using the formula, our line equation is: $$\frac{y-103}{109-103}=\frac{x-0}{1-0}$$
+Solving for $y$ we get $y=P(x)=6x+103$. &lt;br&gt;
+We can now extend the list by adding two new points: $P(2)=115$ and $P(3)=121$. &lt;br&gt;
+Using our ASCII table again, our extended message becomes &lt;code&gt;gmsy&lt;/code&gt;. &lt;br&gt;
+If we get the message &lt;code&gt;sy&lt;/code&gt; because the first 50% of the message got lost or has been withheld, we can recover the original message by reconstructing $P(x)$ using $P(2)=115$ and $P(3)=121$, since you just need two points to interpolate a line: $$\frac{y-115}{121-115}=\frac{x-2}{3-2}$$
+which is again $y=P(x)=6x+103$. &lt;br&gt;
+By calculating $P(0)$ and $P(1)$ we get &lt;code&gt;gm&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Reed-Solomon codes can detect and correct any combination of up to $\frac{n−k}{2}$ errors, or combinations of errors and erasures.&lt;/p&gt;
+&lt;p&gt;RS codes have been generalised to multidimensional codes.&lt;/p&gt;
+&lt;h3 id=&#34;1-dimensional-reed-solomon-data-availability-sampling-scheme&#34;&gt;1-Dimensional Reed-Solomon Data Availability Sampling Scheme&lt;/h3&gt;
+&lt;p&gt;A block producer computes a block of data consisting of $k$ shares, extends the data to $2k$ shares using Reed-Solomon encoding and computes a Merkle root (the &lt;code&gt;dataRoot&lt;/code&gt;) over the extended data.&lt;/p&gt;
+&lt;p&gt;When a light client receive a block header with this &lt;code&gt;dataRoot&lt;/code&gt;, they randomly sample shares from the Merkle tree that &lt;code&gt;dataRoot&lt;/code&gt; represents, and only accept a block once it has received all of the share requested. Note that if an adversarial block producer makes more than 50% of shares unavailable, then the chance of picking always available shares halves at each draw.&lt;/p&gt;
+&lt;p&gt;Also note that for this challenge to work we need enough light clients to sample enough shares so that a block producer will be required to release more than 50% of the shares in order to pass the sampling challenge.&lt;/p&gt;
+&lt;p&gt;The problem with this scheme is that an adversarial block producer may incorrectly construct the extended data, so the incomplete block is unrecoverable even if more than 50% is available.&lt;/p&gt;
+&lt;p&gt;With standard Reed-Solomon encoding the fraud proof that the extended data is invalid is the original data itself, as clients would have to re-encode all data locally to verify the mismatch with the given extended data.&lt;/p&gt;
+&lt;p&gt;To solve this problem we use a multidimensional Reed-Solomon encoding, so that proofs are limited to a specific axis, reducing the proof size to $O(\sqrt[d]{n})$ where $d$ is the number of dimensions. For semplicity we’ll only consider two dimensional Reed-Solomon encoding.&lt;/p&gt;
+&lt;h3 id=&#34;2-dimensional-reed-solomon-encoded-merkle-tree-construction&#34;&gt;2-Dimensional Reed-Solomon Encoded Merkle Tree Construction&lt;/h3&gt;
+
+  &lt;figure class=&#34;center&#34; &gt;
+    &lt;img src=&#34;2d-solomon.png&#34;  alt=&#34;2D RD scheme&#34;   style=&#34;border-radius: 8px; width: 70%; margin: auto&#34;  /&gt;
+    
+      &lt;figcaption class=&#34;center&#34; &gt;Diagram showing a 2D Reed-Solomon encoding. The original data is initially arranged in a $k × k$ matrix, which is then ‘extended’ to a $2k × 2k$ matrix applying multiple times Reed-Solomon encoding.&lt;/figcaption&gt;
+    
+  &lt;/figure&gt;
+
+
+&lt;p&gt;A 2D Reed-Solomon Encoded Merkle tree can be constructed as follows:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Split the raw data into shares and arrange them into a $k × k$ matrix. Apply padding if necessary.&lt;/li&gt;
+&lt;li&gt;Apply Reed-Solomon encoding on each row and column of the matrix. Then apply it a third time horizontally on the vertically extended portion of the matrix to complete the $2k × 2k$ matrix.&lt;/li&gt;
+&lt;li&gt;Compute the root of the Merkle tree for each row and column, so we have $2k$ &lt;code&gt;rowRoots&lt;/code&gt; and $2k$ &lt;code&gt;colRoots&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Compute the root of the Merkle tree of &lt;code&gt;rowRoots&lt;/code&gt; and &lt;code&gt;colRoots&lt;/code&gt; to get the &lt;code&gt;dataRoot&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In total the tree of &lt;code&gt;dataRoot&lt;/code&gt; contains $2 \times (2k)^2$ elements: $2k$ rows and $2k$ columns, each of which contains $2k$ elements.&lt;/p&gt;
+&lt;p&gt;A light client or full node can reconstruct &lt;code&gt;dataRoot&lt;/code&gt; from all the row and column roots by recomputing step 4.
+As we shall see later, we need light clients to also download all the row and column roots.&lt;/p&gt;
+&lt;h4 id=&#34;random-sampling-and-network-block-recovery&#34;&gt;Random Sampling and Network Block Recovery&lt;/h4&gt;
+&lt;p&gt;In order for any share in the 2D Reed-Solomon matrix to be unrecoverable, then at least $(k+1)^2$ out of $(2k)^2$ shares must be unavailable (check Theorem 1 of the &lt;a href=&#34;https://arxiv.org/abs/1809.09044&#34;&gt;original paper&lt;/a&gt; for the proof). Thus when light clients receive a new block header from the network the should randomly sample $s &amp;lt; (k+1)^2$ distinct shares and only accept the block if they have received all of them.
+We suppose that a network model where a sufficient number of honest light clients make requests such that more than $(k+1)^2$ shares will be sampled.
+Additionally light clients gossip shares that they have received to the network, so that the full block can be recovered by honest full nodes.&lt;/p&gt;
+&lt;p&gt;The protocol between a light client and the full nodes that it is connected to works as follows:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The light client receives a new block header from one of the (remember, potentially malicious) full nodes that it is connected to, and a set of &lt;code&gt;rowRoots&lt;/code&gt; and &lt;code&gt;colRoots&lt;/code&gt;. Check if the root of these roots is the same as the &lt;code&gt;dataRoot&lt;/code&gt;. If not, the light client should discard the block header.&lt;/li&gt;
+&lt;li&gt;The light client randomly chooses a set of unique $(x, y)$ coordinates corresponding to points on the extended matrix, and sends them to one or more full nodes it is connected to.&lt;/li&gt;
+&lt;li&gt;If a full node has all of the shares corresponding to the coordinates requested, then for each coordinate it responds with the share and the Merkle proof of inclusion in one of &lt;code&gt;rowRoot&lt;/code&gt; or &lt;code&gt;colRoot&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;For each share and proof the light client verifies the Merkle proof.&lt;/li&gt;
+&lt;li&gt;Each share and valid Merkle proof received is gossiped to all the full nodes that the light client is connected to, and those full nodes gossip it to all the full nodes that they are connected to.&lt;/li&gt;
+&lt;li&gt;If all the proofs in step 4 succeeded, and no shares are missing from the sample made in step 2, then the block is accepted as available if no fraud proof of incorrectly generated extended data (see next section) has been received within a certain network propagation time window.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;fraud-proofs-of-incorrectly-generated-extended-data&#34;&gt;Fraud Proofs of Incorrectly Generated Extended Data&lt;/h4&gt;
+&lt;p&gt;If a full node has enough shares to recover a particular row or column, and after doing so detects that recovered data does not match its respective row or column root, then it must distribute a fraud proof consisting of enough shares in that row or column to be able to recover it, and a Merkle proof for each share.&lt;/p&gt;
+&lt;p&gt;The function to verify the fraud proof takes as input the fraud proof, and checks first that all the shares given by the prover are in the same row or column, and then that the recovered row or column does not match the row or column root in the block. If both conditions are true then the fraud proof is valid and the block should be permanently rejected.&lt;/p&gt;
+&lt;h2 id=&#34;further-research&#34;&gt;Further Research&lt;/h2&gt;
+&lt;p&gt;To remove the need for fraud proofs of incorrectly generated extended data, zk-SNARKs or zk-STARKs can be used to prove that the block headers are correctly erasure coded. You could even prove that the state transition has been applied correctly using zk proofs, but it&amp;rsquo;s way more complicated.&lt;/p&gt;
+&lt;p&gt;Ethereum is now exploring solving the correct erasure coding problem using &lt;a href=&#34;https://dankradfeist.de/ethereum/2020/06/16/kate-polynomial-commitments.html&#34;&gt;KZG commitments&lt;/a&gt;, which we will explore in another article.&lt;/p&gt;
+&lt;h2 id=&#34;resources&#34;&gt;Resources&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://arxiv.org/abs/1809.09044&#34;&gt;Fraud and Data Availability Proofs: Maximising Light Client Security and Scaling Blockchains with Dishonest Majorities&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://medium.com/coinmonks/ethereum-under-the-hood-part-7-blocks-c8a5f57cc356&#34;&gt;Ethereum under the hood - Part 7 (Blocks)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://dankradfeist.de/ethereum/2021/05/20/what-everyone-gets-wrong-about-51percent-attacks.html&#34;&gt;What everyone gets wrong about 51% attacks&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://medium.com/@kelvinfichter/whats-a-sparse-merkle-tree-acda70aeb837&#34;&gt;What’s a Sparse Merkle Tree?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://dankradfeist.de/ethereum/2020/06/16/kate-polynomial-commitments.html&#34;&gt;KZG polynomial commitments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>Decentralization &amp; scalability</title>
       <link>/posts/decentralization_and_scalability/</link>

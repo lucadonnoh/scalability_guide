@@ -3,7 +3,43 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>/</loc>
-    <lastmod>2022-04-28T15:18:10+02:00</lastmod>
+    <lastmod>2022-08-29T17:45:41+02:00</lastmod>
+  </url><url>
+    <loc>/tags/arbitrum/</loc>
+    <lastmod>2022-08-29T17:45:41+02:00</lastmod>
+  </url><url>
+    <loc>/tags/bedrock/</loc>
+    <lastmod>2022-08-29T17:45:41+02:00</lastmod>
+  </url><url>
+    <loc>/posts/bedrock_vs_nitro/</loc>
+    <lastmod>2022-08-29T17:45:41+02:00</lastmod>
+  </url><url>
+    <loc>/tags/nitro/</loc>
+    <lastmod>2022-08-29T17:45:41+02:00</lastmod>
+  </url><url>
+    <loc>/tags/optimism/</loc>
+    <lastmod>2022-08-29T17:45:41+02:00</lastmod>
+  </url><url>
+    <loc>/tags/optimistic-rollup/</loc>
+    <lastmod>2022-08-29T17:45:41+02:00</lastmod>
+  </url><url>
+    <loc>/posts/</loc>
+    <lastmod>2022-08-29T17:45:41+02:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
+    <lastmod>2022-08-29T17:45:41+02:00</lastmod>
+  </url><url>
+    <loc>/tags/data-availability-sampling/</loc>
+    <lastmod>2022-05-19T17:45:41+02:00</lastmod>
+  </url><url>
+    <loc>/tags/erasure-codes/</loc>
+    <lastmod>2022-05-19T17:45:41+02:00</lastmod>
+  </url><url>
+    <loc>/tags/fraud-proofs/</loc>
+    <lastmod>2022-05-19T17:45:41+02:00</lastmod>
+  </url><url>
+    <loc>/posts/maximising_light_clients_security/</loc>
+    <lastmod>2022-05-19T17:45:41+02:00</lastmod>
   </url><url>
     <loc>/tags/decentralization/</loc>
     <lastmod>2022-04-28T15:18:10+02:00</lastmod>
@@ -11,13 +47,7 @@
     <loc>/posts/decentralization_and_scalability/</loc>
     <lastmod>2022-04-28T15:18:10+02:00</lastmod>
   </url><url>
-    <loc>/posts/</loc>
-    <lastmod>2022-04-28T15:18:10+02:00</lastmod>
-  </url><url>
     <loc>/tags/scalability/</loc>
-    <lastmod>2022-04-28T15:18:10+02:00</lastmod>
-  </url><url>
-    <loc>/tags/</loc>
     <lastmod>2022-04-28T15:18:10+02:00</lastmod>
   </url><url>
     <loc>/categories/</loc>

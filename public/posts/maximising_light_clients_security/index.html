@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Maximising light clients security :: Scalability Guide</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="An introduction to fraud proofs and data availability sampling." />
+<meta name="keywords" content=", " />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/posts/maximising_light_clients_security/" />
+
+
+
+
+<link rel="stylesheet" href="/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary_large_image" />
+
+  
+    <meta name="twitter:site" content="donnoh_eth" />
+  
+    <meta name="twitter:creator" content="donnoh_eth" />
+    
+      <meta name="twitter:image" content="https://scalability.guide/posts/maximising_light_clients_security/cover.png" />
+    
+    
+      <meta name="twitter:description" content="An introduction to fraud proofs and data availability sampling." />
+    
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Maximising light clients security">
+<meta property="og:description" content="An introduction to fraud proofs and data availability sampling." />
+<meta property="og:url" content="/posts/maximising_light_clients_security/" />
+<meta property="og:site_name" content="Scalability Guide" />
+
+  <meta property="og:image" content="https://scalability.guide/posts/maximising_light_clients_security/cover.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+
+  <meta property="article:published_time" content="2022-05-19 17:45:41 &#43;0200 CEST" />
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"
+    integrity="sha384-ZPe7yZ91iWxYumsBEOn7ieg8q/o+qh/hQpSaPow8T6BwALcXSCS6C6fSRPIAnTQs" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"
+    integrity="sha384-ljao5I1l+8KYFXG7LNEA7DyaFvuvSCmedUf6Y6JI7LJqiu8q5dEivP2nDdFH31V4" crossorigin="anonymous">
+</script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"
+    integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            delimiters: [{
+                    left: "$$",
+                    right: "$$",
+                    display: true
+                },
+                {
+                    left: "$",
+                    right: "$",
+                    display: false
+                }
+            ]
+        });
+    });
+</script>
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Scalability Guide
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/posts/decentralization_and_scalability">Decentralization &amp; Scalability</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/posts/decentralization_and_scalability">Decentralization &amp; Scalability</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="/posts/maximising_light_clients_security/">Maximising light clients security</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2022-05-19
+        
+          [Updated: 2022-05-19]
+        
+      </span>
+    
+    
+      <span class="post-author">:: donnoh.eth</span>
+    
+    
+      <span class="post-reading-time">:: 10 min read (2049 words)</span>
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="/tags/fraud-proofs/">fraud-proofs</a>&nbsp;
+    
+    #<a href="/tags/data-availability-sampling/">data-availability-sampling</a>&nbsp;
+    
+    #<a href="/tags/erasure-codes/">erasure-codes</a>&nbsp;
+    
+  </span>
+  
+  
+  <img src="/posts/maximising_light_clients_security/cover.png"
+    class="post-cover"
+    alt="Maximising light clients security"
+    title="Cover Image" />
+
+
+  
+    <div class="table-of-contents">
+      <h2>
+        Table of Contents
+      </h2>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#fraud-proofs">Fraud proofs</a></li>
+    <li><a href="#data-availability-sampling">Data availability sampling</a>
+      <ul>
+        <li><a href="#reed-solomon-encoding">Reed-Solomon encoding</a></li>
+        <li><a href="#1-dimensional-reed-solomon-data-availability-sampling-scheme">1-Dimensional Reed-Solomon Data Availability Sampling Scheme</a></li>
+        <li><a href="#2-dimensional-reed-solomon-encoded-merkle-tree-construction">2-Dimensional Reed-Solomon Encoded Merkle Tree Construction</a></li>
+      </ul>
+    </li>
+    <li><a href="#further-research">Further Research</a></li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+</nav>
+    </div>
+  
+
+  <div class="post-content"><div>
+        <p>This post is a summary of the <a href="https://arxiv.org/abs/1809.09044">Fraud and Data Availability Proofs: Maximising Light Client Security and Scaling Blockchains with Dishonest Majorities</a> paper, which is a good introduction to fraud proofs and data availability sampling.</p>
+<p>I already discussed what a node is and the difference between light and full nodes in <a href="https://scalability.guide/posts/decentralization_and_scalability/#blockchain-decentralization-what-is-a-node">Decentralization &amp; scalability</a>, so check it out!</p>
+<hr>
+<p>Since light clients only check <a href="https://medium.com/coinmonks/ethereum-under-the-hood-part-7-blocks-c8a5f57cc356https://ethereum.github.io/yellowpaper/paper.pdf">block headers</a>, they assume that the longest chain contains only valid transactions. In the case of a 51% attack, <a href="https://dankradfeist.de/ethereum/2021/05/20/what-everyone-gets-wrong-about-51percent-attacks.html">where full clients would still reject invalid transactions</a> a light client would not.</p>
+<p>We can eliminate the honest majority assumption for light clients using fraud proofs generated by full clients. In this way we bring the assumption down to just one honest full client.
+We also suppose in our network model that the victim light client is connected to at least one honest full client.</p>
+<p>There are two important components that needs to be discussed:</p>
+<ul>
+<li><strong>fraud proofs</strong>: to prove that a block contains invalid transactions.</li>
+<li><strong>data availability sampling</strong>: for data availability assurance, needed to generate fraud proofs.</li>
+</ul>
+<p><strong>Goal</strong>: Assuming that it takes <code>O(N)</code> time for a full node to validate a block, light clients should discard an invalid block in less than <code>O(N)</code> time and space, where <code>N</code> is the number of transactions in a block. Note that this is necessary because light clients aren’t fast enough to keep up with the blockchain (otherwise they’d be full nodes). This requires updating the network at the protocol level.</p>
+<h2 id="fraud-proofs">Fraud proofs<a href="#fraud-proofs" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>We define a transition as a function <code>transition(S,t)</code>, where <code>S</code> is the state and <code>t</code> a transaction, which outputs the new state <code>S'</code> after executing <code>t</code> or gives an error.
+The state tree is represented as a Patricia tree, but for simplicity assume it&rsquo;s a <a href="https://medium.com/@kelvinfichter/whats-a-sparse-merkle-tree-acda70aeb837">sparse Merkle tree</a>.
+Since this transition needs the whole state tree, it can&rsquo;t be used by light clients.</p>
+<p>We define a new kind of transition function as <code>rootTransition(stateRoot,t,w)</code> which outputs a new state root <code>stateRoot'</code> or gives an error, where <code>w</code> is a sparse Merkle tree proof (a witness) of the parts of the state that the transaction <code>t</code> touches.</p>
+<p>Note that these Merkle proofs are a subtree of the same state tree with a common root, so we can update the state root without having the whole state tree!</p>
+
+  <img src="diagram.png"  alt="How to recompute the root using a witness"  class="center"  style="border-radius: 8px;"  />
+
+
+<p>Given a list of transactions from a block, we can compute the intermediate state roots, where the last one is the state root of the new block.</p>
+<p>We also add a new field inside the block header, the <code>dataRoot</code>, which represents transactions arranged into fixed-size chunks of data called &ldquo;shares&rdquo;, needed for data availability proofs. These shares contains intermediate state roots called &ldquo;traces&rdquo; as well as transactions.</p>
+
+  <figure class="center" >
+    <img src="share.png"  alt="Example of a data share"   style="border-radius: 8px;"  />
+    
+      <figcaption class="center" >Example of a 256 bit share</figcaption>
+    
+  </figure>
+
+
+<p>A <strong>fraud proof</strong> consists of the relevant shares in the block that contain a bad state transition, Merkle proofs for those shares and the state witness for the transactions contained in those shares.</p>
+<p>We assume a &ldquo;period criterion&rdquo;, a protocol rule that defines how often an intermediate state root should be included in the block’s data. For example, the rule could be at least once every <em>p</em> transactions, or <em>b</em> bytes or <em>g</em> gas.</p>
+<p>The function to verify a fraud proof takes as input the fraud proofs and checks if applying the transactions in a period of the block’s data on the intermediate pre-state root results in the intermediate post-state root specified in the block of data. If it does not, then the fraud proof is valid and the block that the fraud proof is for should be permanently rejected by the client.</p>
+<h2 id="data-availability-sampling">Data availability sampling<a href="#data-availability-sampling" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Using fraud proofs alone, a malicious block producer could prevent full nodes from generating fraud proofs by withholding the data needed to recompute <code>dataRoot</code>, and only releasing the block header to the network.</p>
+<p>The block producer could then only release the data which contains invalid transactions or state transitions long after the block as been published, causing the rollback of many transactions.</p>
+<p>It is therefore necessary for light clients to have a level of assurance that the data matching <code>dataRoot</code> is indeed available in the network. It is important that all the data is available since it’s sufficient to just withhold a few bytes to hide an invalid transaction in a block.</p>
+<p>Light clients could ask for all the data represented by <code>dataRoot</code>, but our goal is to get this assurance in less than <code>O(N)</code> time and space. This is where Reed-Solomon codes come into play.</p>
+<h3 id="reed-solomon-encoding">Reed-Solomon encoding<a href="#reed-solomon-encoding" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Reed-Solomon codes work under the assumption of bit erasures rather than bit errors.</p>
+<p>A Reed-Solomon code encodes data by treating a length-$k$ message as a list of elements $y_0$, $y_1$, &hellip;, $y_{k-1}$, interpolating the polynomial $P(x)$ where $P(i) = y_i$ for all $0 ≤ i &lt; k$, and then extending the list with $y_k$, $y_{k+1}$, &hellip;, $y_{n−1}$ where $y_i = P(i)$.</p>
+<p>Let&rsquo;s give an example.</p>
+<p>Imagine we want to encode the message <code>gm</code> using a Reed-Solomon code with $k=2$. <br>
+We can encode the characters of the message using the <a href="https://www.cs.cmu.edu/~pattis/15-1XX/common/handouts/ascii.html">ASCII table</a>, so we get $y_0=103$ and $y_1=109$.<br>
+For simplicity let&rsquo;s use the equation to interpolate a line from two points: $$\frac{y-y_0}{y_1-y_0}=\frac{x-x_0}{x_1-x_0}$$
+The interpolation can be generalized for any polynomial using Lagrange interpolation or with more advanced techniques like Fast Fourier transforms.
+Using the formula, our line equation is: $$\frac{y-103}{109-103}=\frac{x-0}{1-0}$$
+Solving for $y$ we get $y=P(x)=6x+103$. <br>
+We can now extend the list by adding two new points: $P(2)=115$ and $P(3)=121$. <br>
+Using our ASCII table again, our extended message becomes <code>gmsy</code>. <br>
+If we get the message <code>sy</code> because the first 50% of the message got lost or has been withheld, we can recover the original message by reconstructing $P(x)$ using $P(2)=115$ and $P(3)=121$, since you just need two points to interpolate a line: $$\frac{y-115}{121-115}=\frac{x-2}{3-2}$$
+which is again $y=P(x)=6x+103$. <br>
+By calculating $P(0)$ and $P(1)$ we get <code>gm</code>.</p>
+<p>Reed-Solomon codes can detect and correct any combination of up to $\frac{n−k}{2}$ errors, or combinations of errors and erasures.</p>
+<p>RS codes have been generalised to multidimensional codes.</p>
+<h3 id="1-dimensional-reed-solomon-data-availability-sampling-scheme">1-Dimensional Reed-Solomon Data Availability Sampling Scheme<a href="#1-dimensional-reed-solomon-data-availability-sampling-scheme" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>A block producer computes a block of data consisting of $k$ shares, extends the data to $2k$ shares using Reed-Solomon encoding and computes a Merkle root (the <code>dataRoot</code>) over the extended data.</p>
+<p>When a light client receive a block header with this <code>dataRoot</code>, they randomly sample shares from the Merkle tree that <code>dataRoot</code> represents, and only accept a block once it has received all of the share requested. Note that if an adversarial block producer makes more than 50% of shares unavailable, then the chance of picking always available shares halves at each draw.</p>
+<p>Also note that for this challenge to work we need enough light clients to sample enough shares so that a block producer will be required to release more than 50% of the shares in order to pass the sampling challenge.</p>
+<p>The problem with this scheme is that an adversarial block producer may incorrectly construct the extended data, so the incomplete block is unrecoverable even if more than 50% is available.</p>
+<p>With standard Reed-Solomon encoding the fraud proof that the extended data is invalid is the original data itself, as clients would have to re-encode all data locally to verify the mismatch with the given extended data.</p>
+<p>To solve this problem we use a multidimensional Reed-Solomon encoding, so that proofs are limited to a specific axis, reducing the proof size to $O(\sqrt[d]{n})$ where $d$ is the number of dimensions. For semplicity we’ll only consider two dimensional Reed-Solomon encoding.</p>
+<h3 id="2-dimensional-reed-solomon-encoded-merkle-tree-construction">2-Dimensional Reed-Solomon Encoded Merkle Tree Construction<a href="#2-dimensional-reed-solomon-encoded-merkle-tree-construction" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+
+  <figure class="center" >
+    <img src="2d-solomon.png"  alt="2D RD scheme"   style="border-radius: 8px; width: 70%; margin: auto"  />
+    
+      <figcaption class="center" >Diagram showing a 2D Reed-Solomon encoding. The original data is initially arranged in a $k × k$ matrix, which is then ‘extended’ to a $2k × 2k$ matrix applying multiple times Reed-Solomon encoding.</figcaption>
+    
+  </figure>
+
+
+<p>A 2D Reed-Solomon Encoded Merkle tree can be constructed as follows:</p>
+<ol>
+<li>Split the raw data into shares and arrange them into a $k × k$ matrix. Apply padding if necessary.</li>
+<li>Apply Reed-Solomon encoding on each row and column of the matrix. Then apply it a third time horizontally on the vertically extended portion of the matrix to complete the $2k × 2k$ matrix.</li>
+<li>Compute the root of the Merkle tree for each row and column, so we have $2k$ <code>rowRoots</code> and $2k$ <code>colRoots</code>.</li>
+<li>Compute the root of the Merkle tree of <code>rowRoots</code> and <code>colRoots</code> to get the <code>dataRoot</code>.</li>
+</ol>
+<p>In total the tree of <code>dataRoot</code> contains $2 \times (2k)^2$ elements: $2k$ rows and $2k$ columns, each of which contains $2k$ elements.</p>
+<p>A light client or full node can reconstruct <code>dataRoot</code> from all the row and column roots by recomputing step 4.
+As we shall see later, we need light clients to also download all the row and column roots.</p>
+<h4 id="random-sampling-and-network-block-recovery">Random Sampling and Network Block Recovery<a href="#random-sampling-and-network-block-recovery" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>In order for any share in the 2D Reed-Solomon matrix to be unrecoverable, then at least $(k+1)^2$ out of $(2k)^2$ shares must be unavailable (check Theorem 1 of the <a href="https://arxiv.org/abs/1809.09044">original paper</a> for the proof). Thus when light clients receive a new block header from the network the should randomly sample $s &lt; (k+1)^2$ distinct shares and only accept the block if they have received all of them.
+We suppose that a network model where a sufficient number of honest light clients make requests such that more than $(k+1)^2$ shares will be sampled.
+Additionally light clients gossip shares that they have received to the network, so that the full block can be recovered by honest full nodes.</p>
+<p>The protocol between a light client and the full nodes that it is connected to works as follows:</p>
+<ol>
+<li>The light client receives a new block header from one of the (remember, potentially malicious) full nodes that it is connected to, and a set of <code>rowRoots</code> and <code>colRoots</code>. Check if the root of these roots is the same as the <code>dataRoot</code>. If not, the light client should discard the block header.</li>
+<li>The light client randomly chooses a set of unique $(x, y)$ coordinates corresponding to points on the extended matrix, and sends them to one or more full nodes it is connected to.</li>
+<li>If a full node has all of the shares corresponding to the coordinates requested, then for each coordinate it responds with the share and the Merkle proof of inclusion in one of <code>rowRoot</code> or <code>colRoot</code>.</li>
+<li>For each share and proof the light client verifies the Merkle proof.</li>
+<li>Each share and valid Merkle proof received is gossiped to all the full nodes that the light client is connected to, and those full nodes gossip it to all the full nodes that they are connected to.</li>
+<li>If all the proofs in step 4 succeeded, and no shares are missing from the sample made in step 2, then the block is accepted as available if no fraud proof of incorrectly generated extended data (see next section) has been received within a certain network propagation time window.</li>
+</ol>
+<h4 id="fraud-proofs-of-incorrectly-generated-extended-data">Fraud Proofs of Incorrectly Generated Extended Data<a href="#fraud-proofs-of-incorrectly-generated-extended-data" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>If a full node has enough shares to recover a particular row or column, and after doing so detects that recovered data does not match its respective row or column root, then it must distribute a fraud proof consisting of enough shares in that row or column to be able to recover it, and a Merkle proof for each share.</p>
+<p>The function to verify the fraud proof takes as input the fraud proof, and checks first that all the shares given by the prover are in the same row or column, and then that the recovered row or column does not match the row or column root in the block. If both conditions are true then the fraud proof is valid and the block should be permanently rejected.</p>
+<h2 id="further-research">Further Research<a href="#further-research" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>To remove the need for fraud proofs of incorrectly generated extended data, zk-SNARKs or zk-STARKs can be used to prove that the block headers are correctly erasure coded. You could even prove that the state transition has been applied correctly using zk proofs, but it&rsquo;s way more complicated.</p>
+<p>Ethereum is now exploring solving the correct erasure coding problem using <a href="https://dankradfeist.de/ethereum/2020/06/16/kate-polynomial-commitments.html">KZG commitments</a>, which we will explore in another article.</p>
+<h2 id="resources">Resources<a href="#resources" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ul>
+<li><a href="https://arxiv.org/abs/1809.09044">Fraud and Data Availability Proofs: Maximising Light Client Security and Scaling Blockchains with Dishonest Majorities</a></li>
+<li><a href="https://medium.com/coinmonks/ethereum-under-the-hood-part-7-blocks-c8a5f57cc356">Ethereum under the hood - Part 7 (Blocks)</a></li>
+<li><a href="https://dankradfeist.de/ethereum/2021/05/20/what-everyone-gets-wrong-about-51percent-attacks.html">What everyone gets wrong about 51% attacks</a></li>
+<li><a href="https://medium.com/@kelvinfichter/whats-a-sparse-merkle-tree-acda70aeb837">What’s a Sparse Merkle Tree?</a></li>
+<li><a href="https://dankradfeist.de/ethereum/2020/06/16/kate-polynomial-commitments.html">KZG polynomial commitments</a></li>
+</ul>
+
+      </div></div>
+
+  
+  
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read other posts</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        <span class="button previous">
+            <a href="/posts/bedrock_vs_nitro/">
+                <span class="button__icon">←</span>
+                <span class="button__text">Differences and similarities of Optimism Bedrock and Arbitrum Nitro</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="/posts/decentralization_and_scalability/">
+                <span class="button__text">Decentralization &amp; scalability</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+  
+
+  
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="/assets/main.js"></script>
+<script src="/assets/prism.js"></script>
+
+
+
+
+
+<hr>
+<footer>
+    <a href="https://twitter.com/donnoh_eth">Twitter</a>
+    <a href="https://github.com/lucadonnoh/scalability_guide">Github</a>
+</footer>
+
+
+<style>
+    footer {
+        display: flex;
+        justify-content: space-around;
+    }
+</style>
+
+  
+</div>
+
+</body>
+</html>
