@@ -41,11 +41,12 @@ One solution that **Bedrock** proposes (but does not implement yet) is a direct 
 
 ## Failed transactions
 
-Since a deposited transaction is executed on L2, the bridge cannot know whether it succeded or not until much later and funds could be lost in the meantime. 
+Since a deposited transaction is executed on L2, the bridge cannot know whether it succeded or not until much later and funds could be lost in the meantime. A smart contract that sends a transaction through the bridge with both callvalue on L1 and L2 can lose its funds if it does not implement a way to retry the call without the L1 callvalue.
 
 **Nitro** implements a system of "retryable tickets": if a deposited transaction fails, ArbOS creates a retryable ticket that can be retried ("redeemed") by anyone that provides funds for its gas. If the transaction has some callvalue attached, it gets escrowed by ArbOS. After 1 week an unredeemed ticket expires and gets deleted. A failed retry can be retried and an expiring ticket can be renewed. When creating a retryable, a beneficiary address can be provided to receive the escrowed funds if the ticket gets deleted. The beneficiary can also cancel the ticket. Redeems are always placed in the same block as the transaction that requested it.
 
-**Bedrock** does not implement any sistem to retry failed deposited transactions. A smart contract that sends a transaction through the bridge with both callvalue on L1 and L2 can lose its funds if it does not implement a way to retry the call without the L1 callvalue.
+**Bedrock** uses the CrossDomainMessenger wrapper around the core deposit contract to retry failed deposited transactions. A failed transaction on L2 can be replayed by calling the `relayMessage` function at any time.
+
 
 ## Other considerations
 
