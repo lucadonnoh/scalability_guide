@@ -19,7 +19,7 @@ This is the first of a series of articles discussing the differences and similar
 
 ## Deposits
 
-Deposited transactions are L2 transactions that are being submitted using a smart contract on L1. They are mainly used for depositing assets on the rollup chain, while other L2 transactions are directly sent to the sequencer. If the sequencer is offline or censoring, this mechanism can be used to inherit L1 liveness and censorship resistance.
+Deposited transactions are L2 transactions that are submitted using a smart contract on L1. They are mainly used for depositing assets on the rollup chain, while other L2 transactions are directly sent to the sequencer. If the sequencer is offline or censoring, this mechanism can be used to inherit L1 liveness and censorship resistance.
 
 The main difference between the two rollups is the delay separating the submission and the inclusion of the transaction on L2: **Nitro** uses a queue of timestamped transactions where the sequencer is allowed to wait some time (around 10 mins = ~50 Ethereum blocks) before including them to prevent dealing with reorgs. Only after 24 hours the tx can be force included with a second transaction on L1: a whole day for each transaction if the sequencer is offline or censoring. The reason behind this high delay is to disincentivize forced transaction under normal conditions because they directly affect the state for any unconfirmed (not batched) L2 transaction, invalidating soft-confirmation receipts.
 
