@@ -1,5 +1,5 @@
 +++
-title = "Optimism Bedrock vs Arbitrum Nitro, Part 1: Deposits"
+title = "Optimism Bedrock vs Arbitrum Nitro: Deposits"
 date = 2022-08-29T17:45:41+02:00
 author = "donnoh.eth"
 authorTwitter = "donnoh_eth" #do not include @
@@ -15,7 +15,7 @@ path = "https://scalability.guide/posts/bedrock_vs_nitro/deposits/"
 autonumbering = true
 +++
 
-This is the first of a series of articles discussing the differences and similarities between the designs of Optimism Bedrock and Arbitrum Nitro.
+This was initially meant to be the first of a series of articles discussing the differences and similarities between the designs of Optimism Bedrock and Arbitrum Nitro, but norswap frontrun me with this [amazing article](https://norswap.com/bedrock-vs-nitro/), go check it out!
 
 ## Deposits
 
