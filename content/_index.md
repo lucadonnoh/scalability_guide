@@ -2,6 +2,6 @@
 framed = true
 +++
 
-# gm!
+# sup!
 
-Welcome to the `Scalability Guide` website. Content coming soon™.
+Welcome to the `Scalability Guide` website. Here you can find articles about scalability technologies.
