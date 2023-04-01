@@ -10,7 +10,7 @@ description = "What are the trade-offs between posting transaction data and stat
 showFullContent = false
 readingTime = true
 hideComments = false
-draft = true
+draft = false
 path = "https://scalability.guide/posts/txdata_vs_statediffs/"
 autonumbering = true
 +++
