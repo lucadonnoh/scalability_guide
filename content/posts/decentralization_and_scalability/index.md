@@ -18,7 +18,7 @@ path = "https://scalability.guide/posts/decentralization_and_scalability/"
 There are three separate axes of decentralization:
 - **Architectural decentralization** -- how many **physical computers** is a system made up of? How many of those computers can it tolerate breaking down at any single time?
 - **Political decentralization** -- how many **individuals or organizations** ultimately control the computers that the system is made up of?
-- **Logical decentralization** -- does the **interface and data structures** that the system presents and maintains look more like a single monolithic object, or an amorphous swarm? One simplw heuristic: if you cut the system in half, including both providers and users, will both halves continue to fully operate as independent units?
+- **Logical decentralization** -- does the **interface and data structures** that the system presents and maintains look more like a single monolithic object, or an amorphous swarm? One simple heuristic: if you cut the system in half, including both providers and users, will both halves continue to fully operate as independent units?
 
 {{< image src="decentralization_diagram.png" alt="Decentralization diagram" position="center" style="border-radius: 8px;" >}}
 
@@ -35,13 +35,13 @@ Logical centralization is in many cases good, but **logical decentralization is 
 **Logical centralization makes political decentralization harder**, where you can’t simply “live and let live” — see the Block size limit controversy and the DAO fork.
 
 ### Reasons for decentralization
-- **Fault tolerance** — decentralized systems are less likely to fail accidentally because they rely on many separate components that are not likely. It’s important to avoid [common mode failures](https://en.wikipedia.org/wiki/Common_cause_and_special_cause_(statistics)#Common_mode_failure_in_engineering), by having different client softwares by different teams, democratized protocol upgrades, geographically sparse nodes and a sparse distribution of coins in a proof of stake blockchain.
+- **Fault tolerance** — decentralized systems are less likely to fail accidentally because they rely on many separate components that are not likely to fail in the same way. It’s important to avoid [common mode failures](https://en.wikipedia.org/wiki/Common_cause_and_special_cause_(statistics)#Common_mode_failure_in_engineering), by having different client softwares by different teams, democratized protocol upgrades, geographically sparse nodes and a sparse distribution of coins in a proof of stake blockchain.
 - **Attack resistance** — decentralized systems are more expensive to attack because they lack sensitive central points. Proof of stake is harder to attack than proof of work because hardware is easy to detect, regulate or attack whereas coins can be much more easily hidden.
 - **Collusion resistance** — it is much harder for participants in decentralized systems to collude to act in ways that benefit them at the expense of others. It is important to note that “collusion” simply means “coordination that we don’t like”. It is difficult to have “good coordination” while preventing “bad coordination”.
 
 ## Blockchain decentralization: what is a node?
 
-A node is a software that participate in the distributed network that makes up a blockchain.
+A node is a software that participates in the distributed network that makes up a blockchain.
 
 What makes a blockchain trustless is that everyone who runs a node can independently verify the validity of the transactions and verify blocks against consensus rules. If you’re not running a node yourself, you’re trusting someone else to provide you with the correct data (e.g. your MetaMask default provider, [Infura](https://infura.io/)).
 
