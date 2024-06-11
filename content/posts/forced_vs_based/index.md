@@ -25,7 +25,7 @@ Users can force L1->L2 messages by calling the `depositTransaction` function on 
 
 ### Orbit: Inbox and DelayedInbox
 
-The Inbox defines the canonical chain data and the sequencer sends L2 sequenced transaction data there. L1 -> L2 messages are sent instead to the DelayedInbox. The sequencer can decide to move transactions from the DelayedInbox to the Inbox to include them in the chain, but if it doesn't do so within a certain time frame, users can move the transactions themselves.
+The Inbox defines the canonical chain data and the sequencer sends L2 sequenced transaction data there. L1->L2 messages are sent instead to the DelayedInbox. The sequencer can decide to move transactions from the DelayedInbox to the Inbox to include them in the chain, but if it doesn't do so within a certain time frame, users can move the transactions themselves.
 
 ### Sequencer failures
 
