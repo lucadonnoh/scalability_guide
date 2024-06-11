@@ -1,6 +1,6 @@
 +++
 title = "Forced txs vs based sequencing"
-date = "2023-06-11T21:30:55+02:00"
+date = "2024-06-11T21:30:55+02:00"
 author = "donnoh.eth"
 authorTwitter = "donnoh_eth" #do not include @
 cover = "cover.png"
