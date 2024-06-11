@@ -21,7 +21,7 @@ Currently there are only two universal rollup stacks that implement a forced tra
 
 ### OP: deposited transactions
 
-Users can force L1->L2 messages by calling the `depositTransaction` function on the OptimismPortal contract on L1. They are forced transactions because the derivation rule enforces that their automatic inclusion in the L2 chain. OP Mainnet block time is 2 seconds, meaning that there are 6 L2 blocks for each L1 block. These sequences of L2 blocks between L1 blocks are called "epochs", therefore for each L1 block there is a corresponding epoch on L2 containing 6 blocks. The derivation rules enforces that the first portion of the first block of an epoch includes deposited transactions included in the corresponding L1 block, while the rest of the epoch contains L2 sequenced transactions.
+Users can force L1->L2 messages by calling the `depositTransaction` function on the OptimismPortal contract on L1. They are forced transactions because the derivation rule enforces their automatic inclusion in the L2 chain. OP Mainnet block time is 2 seconds, meaning that there are 6 L2 blocks for each L1 block. These sequences of L2 blocks between L1 blocks are called "epochs", therefore for each L1 block there is a corresponding epoch on L2 containing 6 blocks. The derivation rules enforces that the first portion of the first block of an epoch includes deposited transactions included in the corresponding L1 block, while the rest of the epoch contains L2 sequenced transactions.
 
 ### Orbit: Inbox and DelayedInbox
 
