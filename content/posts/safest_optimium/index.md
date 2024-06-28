@@ -11,7 +11,7 @@ showFullContent = false
 readingTime = true
 hideComments = false
 draft = false
-path = "https://scalability.guide/posts/forced_vs_based/"
+path = "https://scalability.guide/posts/safest_optimium/"
 autonumbering = true
 +++
 
