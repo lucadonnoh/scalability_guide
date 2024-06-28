@@ -1,12 +1,12 @@
 +++
-title = "Forced txs vs based sequencing"
-date = "2024-06-11T21:30:55+02:00"
+title = "How to build the safest (and dumbest) Optimium"
+date = "2024-06-28T21:30:55+02:00"
 author = "donnoh.eth"
 authorTwitter = "donnoh_eth" #do not include @
 cover = "cover.png"
-tags = ["rollups", "sequencing"]
+tags = ["rollups", "optimiums"]
 keywords = ["", ""]
-description = "What are the tradeoffs between forced transaction mechanisms and based sequencing in rollups?"
+description = "An exercise to test your mental models on rollups and optimiums."
 showFullContent = false
 readingTime = true
 hideComments = false
@@ -15,36 +15,35 @@ path = "https://scalability.guide/posts/safest_optimium/"
 autonumbering = true
 +++
 
-## Forced transaction mechanisms
+## What is an Optimium?
 
-Currently there are only two universal rollup stacks that implement a forced transaction mechanism to bypass a centralized sequencer: OP stack (e.g. OP Mainnet and Base) and Orbit stack (e.g. Arbitrum One).
+An Optimium is a project whose bridge inherits all the security guarantees of the base layer except data availability, which is delegated to an external network that is supposed to relay "data availability attestations" to a data availability bridge, that is then referenced by the project's (optimistic) proof system. Examples of this are Celestia relaying network consensus signatures to the Blobstream bridge, or a DAC verifying signatures on a simple L1 contract. In this article I'll focus on alternative blockchains used as the external data availability layer and not on DACs.
 
-### OP: deposited transactions
+One of the most important guarantees than an Optimium needs to inherit from the base layer is the consensus guarantee. Data unavailability of an external network is not attributable internally, so the Optimium must rely on the external network consensus to sign only available blocks. This can be better guaranteed via economic security, since in the external network such faults are attributable and can be appropriately penalized either via double sign slashing or via social consensus. Data unavailability for an Optimium is extremely dangerous since it allows for invalid state roots to be finalized, as challengers wouldn't be able to retrieve the data to prove them wrong.
 
-Users can force L1->L2 messages by calling the `depositTransaction` function on the OptimismPortal contract on L1. They are forced transactions because the derivation rule enforces their automatic inclusion in the L2 chain. OP Mainnet block time is 2 seconds, meaning that there are 6 L2 blocks for each L1 block. These sequences of L2 blocks between L1 blocks are called "epochs", therefore for each L1 block there is a corresponding epoch on L2 containing 6 blocks. The derivation rule enforces that the first portion of the first block of an epoch includes deposited transactions included in the corresponding L1 block, while the rest of the epoch contains L2 sequenced transactions.
+The alt DA network might also be extremely unstable and reorg very frequently, but as the Optimium inherits the base layer consensus guarantees it wouldn't reorg with it. Something inherits consensus of a layer if it reorgs if and only if such layer reorgs. Instead, if a project reorgs with the DA layer, from the perspective of the other layer it acts like a sidechain.
 
-### Orbit: Inbox and DelayedInbox
+In practice, the Optimium's derivation rule needs to be implemented in the following way:
 
-The Inbox defines the canonical chain data and the sequencer sends L2 sequenced transaction data there. L1->L2 messages are sent instead to the DelayedInbox. The sequencer can decide to move transactions from the DelayedInbox to the Inbox to include them in the chain, but if it doesn't do so within a certain time frame, users can move the transactions themselves.
+1. Read the confirmed data commitments from the base layer (e.g. Ethereum) and use such ordering for deriving the state of the Optimium;
+2. Call the DA layer to get the preimages of such commitments to actually compute the state.
 
-### Sequencer failures
+{{< figure src="celestia-optimium.png" alt="An optimium using Celestia" position="center" style="border-radius: 8px;" caption="A generic Ethereum Optimium using Celestia for DA. Note that the ordering on Celestia (1-2-3) is different than the one on Ethereum (1-3-2), which is ultimately what gets used." >}}
 
-Since the sequencer is centralized, it can fail to post batches onchain but it can continue to provide preconfirmations to users not to halt the chain. These scenarios happen more often than it is discussed, sometimes due to bugs as in the recent Degen chain incident, other times due to scheduled node upgrades.
+If the DA layer reorgs, the Optimium doesn't reorg because it follows the base layer ordering, therefore inheriting reorg resistance. The problem arises if the DA bridge accepts a block from the DA layer that is then reorged, since it would then start to follow a non canonical fork. However, even in this case, if the data remains available in the non canonical fork, the Optimium would still function safely, making this the biggest difference in security between an Optimium and a sidechain with a validating bridge (see [this blogpost](https://vitalik.eth.limo/general/2023/10/31/l2types.html) from Vitalik for a deeper explanation, i.e. Validiums vs quasi-Validiums). Despite this, it would be much more fragile since any economic guarantee would be lost and relaying unavailable blocks becomes trivial. Bridges are most often designed to only confirm finalized blocks from the DA layer, i.e. blocks signed by >2/3 of the network stake, but even finalized blocks can be reorged in case of a consensus failure or simply because of social consensus.
 
-{{< figure src="base.png" alt="Base downtime" position="center" style="border-radius: 8px;" caption="Base halting batch posting for 1h a few days ago. I bet no one even noticed." >}}
+{{< figure src="celestia-fork.png" alt="Celestia forking the Optimium off" position="center" style="border-radius: 8px;" caption="An Optimium following a non-canonical DA layer fork." >}}
 
-If the Base sequencer was not able to backdate transactions, L2 blocks between L1 blocks would only contain deposited transactions and the rest would have been empty, meaning that it would not have been possible to provide real time preconfirmations. If the Base sequencer can backdate transactions from the time of posting on L1, one cannot derive the state that includes the deposited transactions because it is not known if the sequencer will include L2 sequenced transactions before them. There is a limit to how much the sequencer can backdate transactions, which is currently set to 12 hours on OP stack chains. This means that forced transaction derivation can be delayed up to 12 hours, which implies that no state roots can be posted during that time and therefore withdrawals cannot be processed. If the sequencer remains offline for more than 12 hours, the chain gets filled with empty blocks and deposited transactions gets processed.
+## The safest Optimium
 
-The Arbitrum sequencer can also backdate transactions but only limited to a few minutes to account for L1 reorgs. The DelayedInbox takes care of sequencer downtime by allowing users to move transactions to the Inbox permissionlessly only after a certain time frame, currently 24 hours. In the same way, it implies that forced withdrawals cannot be processed during that time.
+To summarize, the safety of an Optimium depends on the safety of the DA layer consensus. For this reason, an Optimium should choose the DA layer with the highest economic security and safest consensus. As we all know, Ethereum is the chain that gives out the strongest finality guarantees out there, so why not using that?
 
-### Cost of forcing via L1
+An Ethereum Optimium can implement an Ethereum DA bridge by accepting finalized blocks that are signed by >2/3 of the network stake in a smart contract on Ethereum itself. The network can still subject to reorgs of finalized blocks or the majority signing off unavailable blocks, but for Ethereum this is extremely unlikely.
 
-[Here](https://etherscan.io/tx/0x0a1695ac95217f245249dfc72419a67738eba4ac708b1a722f28814970200f49) an example of a deposited transaction on OP Mainnet Optimism portal. It spent 60'702 gas, which at 20 gwei is around \$4. In Arbitrum one, a transaction to the DelayedInbox ([here](https://etherscan.io/tx/0x87fa3c2265f75eb9f1c79fea81865a41f14b428b90811224a7ab32c6799dceb1)) spends 91'261 gas, which is around \$6 at 20 gwei. In comparison, the average cost of a L2 sequenced transaction is respectively around \\$0.0007 and \\$0.0021.
+{{< figure src="ethereum-optimium.png" alt="An Ethereum Optimium" position="center" style="border-radius: 8px;" caption="An Ethereum Optimium using Ethereum for DA." >}}
 
-## Based sequencing
+## Conclusion: wait wait wait, isn't this just an Optimistic Rollup?
 
-If a rollup decides to use based sequencing there is no centralized sequencer that needs a bypass mechanism. The rollup inherits by default the liveness and censorship resistance properties of L1. Moreover, there is no need to account for failures since L1 is usually live. The problem arises with providing preconfirmations that are faster than L1 inclusion confirmations, i.e. 12 seconds. Taiko is the only based rollup live in production and its current UX suffers from this issue. While the details of based preconfirmations are still being discussed, based preconfers are expected to have a stake that can economically guarantee the correctness of the preconfirmation since it can be slashed if they equivocate, providing net benefits compared to fully trusted preconfirmations. With based sequencing users can exit without incurring in any additional cost or delay. Rollup teams can also obtain plausible deniability in case of sequencing of illegal transactions.
+We often hear than an Optimistic Rollup is a blockchain that inherits consensus from the base layer and publishes DA on the same layer. This little troll exercise was made to test this mental model and to show that it is not enough: an Optimium built this way still relies on Ethereum's consensus majority being honest, which is not the case for an Optimistic Rollup. A Rollup, by definition, operates safely even in the presence of a dishonest majority, in the same way that Ethereum itself does: data unavailability is trivially attributable, so not even a malicious Ethereum majority can fool a Rollup full node, making it much secure than an Optimium.
 
-## Appendix: the Degen incident
-
-The Orbit chain was down for almost 2 days and someone managed to force include a tx from the DelayedInbox to the main Inbox after the 24h force inclusion delay invalidating certain preconfirmed transactions. The chain was able to recover some of them due to the 24h period but the other had to be replayed on top of the new state, potentially failing if not valid. They were able to prevent further invalidations by upgrading the bridge to increase the force inclusion delay. For reference, see the update that the L2BEAT monitoring system sent us [here](https://github.com/l2beat/l2beat/pull/3679/files).
+But if you really want to build an Optimium, just make sure to use the safest DA layer out there 😉 (jk don't do that).
