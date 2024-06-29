@@ -38,12 +38,12 @@ If the DA layer reorgs, the Optimium doesn't reorg because it follows the base l
 
 To summarize, the safety of an Optimium depends on the safety of the DA layer consensus. For this reason, an Optimium should choose the DA layer with the highest economic security and safest consensus. As we all know, Ethereum is the chain that gives out the strongest finality guarantees out there, so why not using that?
 
-An Ethereum Optimium can implement an Ethereum DA bridge by accepting finalized blocks that are signed by >2/3 of the network stake in a smart contract on Ethereum itself. The network can still subject to reorgs of finalized blocks or the majority signing off unavailable blocks, but for Ethereum this is extremely unlikely.
+An Ethereum Optimium can implement an Ethereum DA bridge by accepting finalized blocks that are signed by >2/3 of the network stake in a smart contract on Ethereum itself. The network can still be subject to reorgs of finalized blocks or the majority signing off unavailable blocks, but for Ethereum this is extremely unlikely.
 
 {{< figure src="ethereum-optimium.png" alt="An Ethereum Optimium" position="center" style="border-radius: 8px;" caption="An Ethereum Optimium using Ethereum for DA." >}}
 
-## Conclusion: wait wait wait, isn't this just an Optimistic Rollup?
+## Conclusion: wait wait wait, isn't this just a Rollup?
 
-We often hear than an Optimistic Rollup is a blockchain that inherits consensus from the base layer and publishes DA on the same layer. This little troll exercise was made to test this mental model and to show that it is not enough: an Optimium built this way still relies on Ethereum's consensus majority being honest, which is not the case for an Optimistic Rollup. A Rollup, by definition, operates safely even in the presence of a dishonest majority, in the same way that Ethereum itself does: data unavailability is trivially attributable, so not even a malicious Ethereum majority can fool a Rollup full node, making it much secure than an Optimium.
+We often hear than a Rollup is a blockchain that inherits consensus from the base layer and publishes DA on the same layer. This little troll exercise was made to test this mental model and to show that it is not enough: an Optimium built this way still relies on Ethereum's consensus majority being honest, which is not the case for an Optimistic Rollup. A Rollup, by definition, operates safely even in the presence of a dishonest majority, in the same way that Ethereum itself does: data unavailability is trivially attributable, so not even a malicious Ethereum majority can fool the bridge into accepting an unavailable block, making it much secure than an Optimium.
 
 But if you really want to build an Optimium, just make sure to use the safest DA layer out there 😉 (jk don't do that).
